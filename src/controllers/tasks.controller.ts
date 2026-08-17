@@ -10,7 +10,22 @@ export async function listarTasks(req: Request, res: Response) {
     res.status(500).json({ erro: 'Erro ao buscar tasks' });
   }
 }
+export async function buscarTask(req: Request, res: Response) {
+  try {
+    const id = String(req.params.id);
 
+    const task = await tasksService.buscarPorId(id);
+
+    if (!task) {
+      return res.status(404).json({ erro: 'Task não encontrada' });
+    }
+
+    res.status(200).json(task);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ erro: 'Erro ao buscar task' });
+  }
+}
 export async function criarTask(req: Request, res: Response) {
   try {
     const { titulo, descricao } = req.body;
