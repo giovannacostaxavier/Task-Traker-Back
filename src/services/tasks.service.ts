@@ -12,3 +12,15 @@ export async function criarTask(titulo: string, descricao: string) {
   );
   return resultado.rows[0];
 }
+
+export async function editarTask(
+  id: string,
+  titulo: string,
+  descricao: string
+) {
+  const resultado = await pool.query(
+    'UPDATE tasks SET titulo = $1, descricao = $2 WHERE id = $3 RETURNING *',
+    [titulo, descricao, id]
+  );
+  return resultado.rows[0];
+}
