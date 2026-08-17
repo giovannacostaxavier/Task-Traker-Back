@@ -43,3 +43,16 @@ export async function atualizarTask(req: Request, res: Response) {
     res.status(500).json({ erro: 'Eroo ao atualizar task' });
   }
 }
+export async function excluirTask(req: Request, res: Response) {
+  try {
+    const id = String(req.params.id);
+    const taskExcluida = await tasksService.excluirTask(id);
+    if (!taskExcluida) {
+      return res.status(404).json({ erro: 'Task não encontrada' });
+    }
+    res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ erro: 'Erro ao excluir task' });
+  }
+}
