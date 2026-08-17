@@ -2,9 +2,11 @@
   "name": "task-traker-back",
   "version": "1.0.0",
   "description": "Repositorio de Back end do projeto Task Traker",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/server.ts"
   },
   "repository": {
     "type": "git",
