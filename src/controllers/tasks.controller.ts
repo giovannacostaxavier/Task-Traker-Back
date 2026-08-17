@@ -25,3 +25,21 @@ export async function criarTask(req: Request, res: Response) {
     res.status(500).json({ erro: 'Erro ao criar task' });
   }
 }
+export async function atualizarTask(req: Request, res: Response) {
+  try {
+    const id = String(req.params.id);
+    const { titulo, descricao } = req.body;
+
+    if (!titulo) {
+      return res.status(400).json({ erro: 'O campo título é obrigatório' });
+    }
+    const taskAtualizada = await tasksService.editarTask(id, titulo, descricao);
+    if (!taskAtualizada) {
+      return res.status(404).json({ erro: 'Task não encontrada' });
+    }
+    res.status(200).json(taskAtualizada);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ erro: 'Eroo ao atualizar task' });
+  }
+}
