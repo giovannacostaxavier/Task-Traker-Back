@@ -24,3 +24,11 @@ export async function editarTask(
   );
   return resultado.rows[0];
 }
+
+export async function excluirTask(id: string) {
+  const resultado = await pool.query(
+    'DELETE FROM tasks WHERE id = $1 RETURNING *',
+    [id]
+  );
+  return resultado.rows[0];
+}
