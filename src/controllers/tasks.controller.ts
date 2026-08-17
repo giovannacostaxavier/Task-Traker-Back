@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import * as tasksService from '../services/tasks.service.js';
 
-export async function listarTarefas(req: Request, res: Response) {
+export async function listarTasks(req: Request, res: Response) {
   try {
     const tasks = await tasksService.buscarTodas();
     res.status(200).json(tasks);
