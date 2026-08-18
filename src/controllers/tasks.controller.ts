@@ -10,7 +10,7 @@ export const listarTasks = async (req: Request, res: Response) => {
     res.status(500).json({ erro: 'Erro ao buscar tasks' });
   }
 };
-export async function buscarTask(req: Request, res: Response) {
+export const buscarTask = async (req: Request, res: Response) => {
   try {
     const id = String(req.params.id);
 
@@ -25,7 +25,7 @@ export async function buscarTask(req: Request, res: Response) {
     console.error(error);
     res.status(500).json({ erro: 'Erro ao buscar task' });
   }
-}
+};
 export async function criarTask(req: Request, res: Response) {
   try {
     const { titulo, descricao } = req.body;
