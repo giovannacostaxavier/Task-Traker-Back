@@ -26,7 +26,7 @@ export const buscarTask = async (req: Request, res: Response) => {
     res.status(500).json({ erro: 'Erro ao buscar task' });
   }
 };
-export async function criarTask(req: Request, res: Response) {
+export const criarTask = async (req: Request, res: Response) => {
   try {
     const { titulo, descricao } = req.body;
 
@@ -39,7 +39,7 @@ export async function criarTask(req: Request, res: Response) {
     console.error(error);
     res.status(500).json({ erro: 'Erro ao criar task' });
   }
-}
+};
 export async function atualizarTask(req: Request, res: Response) {
   try {
     const id = String(req.params.id);
