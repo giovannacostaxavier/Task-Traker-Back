@@ -58,7 +58,7 @@ export const atualizarTask = async (req: Request, res: Response) => {
     res.status(500).json({ erro: 'Eroo ao atualizar task' });
   }
 };
-export async function excluirTask(req: Request, res: Response) {
+export const excluirTask = async (req: Request, res: Response) => {
   try {
     const id = String(req.params.id);
     const taskExcluida = await tasksService.excluirTask(id);
@@ -70,4 +70,4 @@ export async function excluirTask(req: Request, res: Response) {
     console.error(error);
     res.status(500).json({ erro: 'Erro ao excluir task' });
   }
-}
+};
