@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import * as tasksService from '../services/tasks.service.js';
 
-export async function listarTasks(req: Request, res: Response) {
+export const listarTasks = async (req: Request, res: Response) => {
   try {
     const tasks = await tasksService.buscarTodas();
     res.status(200).json(tasks);
@@ -9,7 +9,7 @@ export async function listarTasks(req: Request, res: Response) {
     console.error(error);
     res.status(500).json({ erro: 'Erro ao buscar tasks' });
   }
-}
+};
 export async function buscarTask(req: Request, res: Response) {
   try {
     const id = String(req.params.id);
