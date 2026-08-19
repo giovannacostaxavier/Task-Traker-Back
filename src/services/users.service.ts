@@ -8,7 +8,7 @@ export const cadastroUser = async (
 ) => {
   const senhaHash = await bcrypt.hash(senha, 10);
   const resultado = await pool.query(
-    'INSERT INTO users (nome,email,senha) VALUES ($1, $2, $3) RETURNING *',
+    'INSERT INTO users (nome,email,senha) VALUES ($1, $2, $3) RETURNING id, nome, email, criado_em',
     [nome, email, senhaHash]
   );
   return resultado.rows[0];
