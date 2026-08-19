@@ -13,3 +13,10 @@ export const cadastroUser = async (
   );
   return resultado.rows[0];
 };
+
+export const buscarUsuario = async (email: string) => {
+  const resultado = await pool.query('SELECT * FROM users WHERE email = $1', [
+    email,
+  ]);
+  return resultado.rows[0];
+};
