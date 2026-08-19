@@ -1,4 +1,6 @@
 import type { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import * as usersService from '../services/users.service.js';
 
 export const cadastroUser = async (req: Request, res: Response) => {
@@ -15,5 +17,34 @@ export const cadastroUser = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ erro: 'Erro ao criar usuário' });
+  }
+};
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { email, senha } = req.body;
+    if (!email || !senha) {
+      return res.status(400).json({ erro: 'Email e senha são obrigatórios' });
+    }
+    const usuario = await usersService.buscarUsuario(email);
+
+    if (!usuario) {
+      return res.status(401).json({ erro: 'Credenciais inválidas' });
+    }
+
+    const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+
+    if (!senhaCorreta) {
+      return res.status(401).json({ erro: 'Credenciais inválidas' });
+    }
+
+    const token = jwt.sign(
+      { id: usuario.id },
+      process.env.JWT_SECRET as string,
+      { expiresIn: '1d' }
+    );
+    res.status(200).json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ erro: 'Erro ao fazer login' });
   }
 };
