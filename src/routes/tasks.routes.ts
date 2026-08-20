@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { autenticarToken } from '../middlewares/auth.middleware.js';
 import {
   listarTasks,
   buscarTask,
@@ -9,10 +10,10 @@ import {
 
 const router = Router();
 
-router.get('/', listarTasks);
-router.get('/:id', buscarTask);
-router.post('/', criarTask);
-router.put('/:id', atualizarTask);
-router.delete('/:id', excluirTask);
+router.get('/', autenticarToken, listarTasks);
+router.get('/:id', autenticarToken, buscarTask);
+router.post('/', autenticarToken, criarTask);
+router.put('/:id', autenticarToken, atualizarTask);
+router.delete('/:id', autenticarToken, excluirTask);
 
 export default router;

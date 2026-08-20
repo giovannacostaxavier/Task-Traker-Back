@@ -8,10 +8,14 @@ export const buscarPorId = async (id: string) => {
   const resultado = await pool.query('SELECT * FROM tasks WHERE id = $1', [id]);
   return resultado.rows[0];
 };
-export const criarTask = async (titulo: string, descricao: string) => {
+export const criarTask = async (
+  titulo: string,
+  descricao: string,
+  userId: number
+) => {
   const resultado = await pool.query(
-    'INSERT INTO tasks (titulo, descricao) VALUES ($1, $2) RETURNING *',
-    [titulo, descricao]
+    'INSERT INTO tasks (titulo, descricao, user_id) VALUES ($1, $2, $3) RETURNING *',
+    [titulo, descricao, userId]
   );
   return resultado.rows[0];
 };

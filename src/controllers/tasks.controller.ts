@@ -33,7 +33,12 @@ export const criarTask = async (req: Request, res: Response) => {
     if (!titulo) {
       return res.status(400).json({ erro: 'O campo título é obrigatório' });
     }
-    const novaTask = await tasksService.criarTask(titulo, descricao);
+    const usuario = req.user as { id: number };
+    const novaTask = await tasksService.criarTask(
+      titulo,
+      descricao,
+      usuario.id
+    );
     res.status(201).json(novaTask);
   } catch (error) {
     console.error(error);
