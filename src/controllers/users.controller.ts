@@ -11,11 +11,6 @@ export const cadastroUser = async (
   try {
     const { nome, email, senha } = req.body;
 
-    if (!nome || !email || !senha) {
-      return res
-        .status(400)
-        .json({ erro: 'Nome, email e senha são obrigatórios' });
-    }
     const novoUser = await usersService.cadastroUser(nome, email, senha);
     res.status(201).json(novoUser);
   } catch (error) {
@@ -29,9 +24,7 @@ export const loginUser = async (
 ) => {
   try {
     const { email, senha } = req.body;
-    if (!email || !senha) {
-      return res.status(400).json({ erro: 'Email e senha são obrigatórios' });
-    }
+
     const usuario = await usersService.buscarUsuario(email);
 
     if (!usuario) {
