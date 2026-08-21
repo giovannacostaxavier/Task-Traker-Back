@@ -1,16 +1,23 @@
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import * as tasksService from '../services/tasks.service.js';
 
-export const listarTasks = async (req: Request, res: Response) => {
+export const listarTasks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const tasks = await tasksService.buscarTodas();
     res.status(200).json(tasks);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao buscar tasks' });
+    next(error);
   }
 };
-export const buscarTask = async (req: Request, res: Response) => {
+export const buscarTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = String(req.params.id);
 
@@ -22,11 +29,14 @@ export const buscarTask = async (req: Request, res: Response) => {
 
     res.status(200).json(task);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao buscar task' });
+    next(error);
   }
 };
-export const criarTask = async (req: Request, res: Response) => {
+export const criarTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { titulo, descricao } = req.body;
 
@@ -41,11 +51,14 @@ export const criarTask = async (req: Request, res: Response) => {
     );
     res.status(201).json(novaTask);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao criar task' });
+    next(error);
   }
 };
-export const atualizarTask = async (req: Request, res: Response) => {
+export const atualizarTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = String(req.params.id);
     const { titulo, descricao } = req.body;
@@ -59,11 +72,14 @@ export const atualizarTask = async (req: Request, res: Response) => {
     }
     res.status(200).json(taskAtualizada);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao atualizar task' });
+    next(error);
   }
 };
-export const excluirTask = async (req: Request, res: Response) => {
+export const excluirTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = String(req.params.id);
     const taskExcluida = await tasksService.excluirTask(id);
@@ -72,11 +88,14 @@ export const excluirTask = async (req: Request, res: Response) => {
     }
     res.status(204).send();
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao excluir task' });
+    next(error);
   }
 };
-export const atualizarStatus = async (req: Request, res: Response) => {
+export const atualizarStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = String(req.params.id);
     const { status } = req.body;
@@ -92,7 +111,6 @@ export const atualizarStatus = async (req: Request, res: Response) => {
     }
     res.status(200).json(novoStatus);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao atualizar status' });
+    next(error);
   }
 };

@@ -1,9 +1,13 @@
-import type { Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import * as usersService from '../services/users.service.js';
 
-export const cadastroUser = async (req: Request, res: Response) => {
+export const cadastroUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { nome, email, senha } = req.body;
 
@@ -15,11 +19,14 @@ export const cadastroUser = async (req: Request, res: Response) => {
     const novoUser = await usersService.cadastroUser(nome, email, senha);
     res.status(201).json(novoUser);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao criar usuário' });
+    next(error);
   }
 };
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { email, senha } = req.body;
     if (!email || !senha) {
@@ -44,7 +51,6 @@ export const loginUser = async (req: Request, res: Response) => {
     );
     res.status(200).json({ token });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao fazer login' });
+    next(error);
   }
 };
