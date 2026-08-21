@@ -60,7 +60,7 @@ export const atualizarTask = async (req: Request, res: Response) => {
     res.status(200).json(taskAtualizada);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ erro: 'Eroo ao atualizar task' });
+    res.status(500).json({ erro: 'Erro ao atualizar task' });
   }
 };
 export const excluirTask = async (req: Request, res: Response) => {
@@ -74,5 +74,25 @@ export const excluirTask = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ erro: 'Erro ao excluir task' });
+  }
+};
+export const atualizarStatus = async (req: Request, res: Response) => {
+  try {
+    const id = String(req.params.id);
+    const { status } = req.body;
+    const statusValidos = ['todo', 'doing', 'done'];
+    if (!status || !statusValidos.includes(status)) {
+      return res
+        .status(400)
+        .json({ erro: 'Status inválido. Use: todo, doing ou done' });
+    }
+    const novoStatus = await tasksService.atualizarStatus(status, id);
+    if (!novoStatus) {
+      return res.status(404).json({ erro: 'Novo status não encontrado' });
+    }
+    res.status(200).json(novoStatus);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ erro: 'Erro ao atualizar status' });
   }
 };

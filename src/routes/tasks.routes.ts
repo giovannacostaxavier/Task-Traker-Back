@@ -6,6 +6,7 @@ import {
   criarTask,
   atualizarTask,
   excluirTask,
+  atualizarStatus,
 } from '../controllers/tasks.controller.js';
 
 const router = Router();
@@ -15,5 +16,6 @@ router.get('/:id', autenticarToken, buscarTask);
 router.post('/', autenticarToken, criarTask);
 router.put('/:id', autenticarToken, atualizarTask);
 router.delete('/:id', autenticarToken, excluirTask);
+router.patch('/:id/status', autenticarToken, atualizarStatus);
 
 export default router;

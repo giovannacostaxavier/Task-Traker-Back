@@ -39,7 +39,7 @@ export const excluirTask = async (id: string) => {
   );
   return resultado.rows[0];
 };
-export const atualizarTask = async (novoStatus: string, id: string) => {
+export const atualizarStatus = async (novoStatus: string, id: string) => {
   const resultado = await pool.query(
     'UPDATE tasks SET status = $1 WHERE id = $2 RETURNING *',
     [novoStatus, id]
