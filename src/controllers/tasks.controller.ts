@@ -40,9 +40,6 @@ export const criarTask = async (
   try {
     const { titulo, descricao } = req.body;
 
-    if (!titulo) {
-      return res.status(400).json({ erro: 'O campo título é obrigatório' });
-    }
     const usuario = req.user as { id: number };
     const novaTask = await tasksService.criarTask(
       titulo,
@@ -63,9 +60,6 @@ export const atualizarTask = async (
     const id = String(req.params.id);
     const { titulo, descricao } = req.body;
 
-    if (!titulo) {
-      return res.status(400).json({ erro: 'O campo título é obrigatório' });
-    }
     const taskAtualizada = await tasksService.editarTask(id, titulo, descricao);
     if (!taskAtualizada) {
       return res.status(404).json({ erro: 'Task não encontrada' });
@@ -99,12 +93,7 @@ export const atualizarStatus = async (
   try {
     const id = String(req.params.id);
     const { status } = req.body;
-    const statusValidos = ['todo', 'doing', 'done'];
-    if (!status || !statusValidos.includes(status)) {
-      return res
-        .status(400)
-        .json({ erro: 'Status inválido. Use: todo, doing ou done' });
-    }
+
     const novoStatus = await tasksService.atualizarStatus(status, id);
     if (!novoStatus) {
       return res.status(404).json({ erro: 'Novo status não encontrado' });
