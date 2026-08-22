@@ -26,7 +26,11 @@ Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
 ```env
 PORT=3000
-DATABASE_URL=postgres://usuario:senha@localhost:5432/nome_do_banco
+DB_USER=postgres
+DB_PASSWORD=sua_senha_aqui
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=nome_do_banco
 JWT_SECRET=sua_chave_secreta_aqui
 ```
 
