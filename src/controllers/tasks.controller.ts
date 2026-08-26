@@ -101,8 +101,13 @@ export const atualizarStatus = async (
   try {
     const id = String(req.params.id);
     const { status } = req.body;
+    const usuario = req.user as { id: number };
 
-    const novoStatus = await tasksService.atualizarStatus(status, id);
+    const novoStatus = await tasksService.atualizarStatus(
+      status,
+      id,
+      usuario.id
+    );
     if (!novoStatus) {
       return res.status(404).json({ erro: 'Novo status não encontrado' });
     }
