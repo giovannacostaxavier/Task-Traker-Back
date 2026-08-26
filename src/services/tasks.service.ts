@@ -38,10 +38,10 @@ export const editarTask = async (
   return resultado.rows[0];
 };
 
-export const excluirTask = async (id: string) => {
+export const excluirTask = async (id: string, userId: number) => {
   const resultado = await pool.query(
-    'DELETE FROM tasks WHERE id = $1 RETURNING *',
-    [id]
+    'DELETE FROM tasks WHERE id = $1 AND user_id = $2 RETURNING *',
+    [id, userId]
   );
   return resultado.rows[0];
 };
