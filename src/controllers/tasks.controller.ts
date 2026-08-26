@@ -83,7 +83,8 @@ export const excluirTask = async (
 ) => {
   try {
     const id = String(req.params.id);
-    const taskExcluida = await tasksService.excluirTask(id);
+    const usuario = req.user as { id: number };
+    const taskExcluida = await tasksService.excluirTask(id, usuario.id);
     if (!taskExcluida) {
       return res.status(404).json({ erro: 'Task não encontrada' });
     }
