@@ -1,7 +1,9 @@
 import pool from '../config/db.js';
 
-export const buscarTodas = async () => {
-  const resultado = await pool.query('SELECT * FROM tasks');
+export const buscarTodas = async (userId: number) => {
+  const resultado = await pool.query('SELECT * FROM tasks WHERE user_id = $1', [
+    userId,
+  ]);
   return resultado.rows;
 };
 export const buscarPorId = async (id: string) => {
