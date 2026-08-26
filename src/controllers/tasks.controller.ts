@@ -21,8 +21,8 @@ export const buscarTask = async (
 ) => {
   try {
     const id = String(req.params.id);
-
-    const task = await tasksService.buscarPorId(id);
+    const usuario = req.user as { id: number };
+    const task = await tasksService.buscarPorId(id, usuario.id);
 
     if (!task) {
       return res.status(404).json({ erro: 'Task não encontrada' });
