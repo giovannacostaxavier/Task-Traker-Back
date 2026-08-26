@@ -60,8 +60,14 @@ export const atualizarTask = async (
   try {
     const id = String(req.params.id);
     const { titulo, descricao } = req.body;
+    const usuario = req.user as { id: number };
 
-    const taskAtualizada = await tasksService.editarTask(id, titulo, descricao);
+    const taskAtualizada = await tasksService.editarTask(
+      id,
+      titulo,
+      descricao,
+      usuario.id
+    );
     if (!taskAtualizada) {
       return res.status(404).json({ erro: 'Task não encontrada' });
     }
