@@ -6,8 +6,11 @@ export const buscarTodas = async (userId: number) => {
   ]);
   return resultado.rows;
 };
-export const buscarPorId = async (id: string) => {
-  const resultado = await pool.query('SELECT * FROM tasks WHERE id = $1', [id]);
+export const buscarPorId = async (id: string, userId: number) => {
+  const resultado = await pool.query(
+    'SELECT * FROM tasks WHERE id = $1 AND user_id = $2',
+    [id, userId]
+  );
   return resultado.rows[0];
 };
 export const criarTask = async (
