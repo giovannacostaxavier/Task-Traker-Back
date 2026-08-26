@@ -28,11 +28,12 @@ export const criarTask = async (
 export const editarTask = async (
   id: string,
   titulo: string,
-  descricao: string
+  descricao: string,
+  userId: number
 ) => {
   const resultado = await pool.query(
-    'UPDATE tasks SET titulo = $1, descricao = $2 WHERE id = $3 RETURNING *',
-    [titulo, descricao, id]
+    'UPDATE tasks SET titulo = $1, descricao = $2 WHERE id = $3 AND user_id = $4 RETURNING *',
+    [titulo, descricao, id, userId]
   );
   return resultado.rows[0];
 };
