@@ -7,7 +7,8 @@ export const listarTasks = async (
   next: NextFunction
 ) => {
   try {
-    const tasks = await tasksService.buscarTodas();
+    const usuario = req.user as { id: number };
+    const tasks = await tasksService.buscarTodas(usuario.id);
     res.status(200).json(tasks);
   } catch (error) {
     next(error);
