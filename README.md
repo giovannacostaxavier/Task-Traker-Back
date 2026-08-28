@@ -2,23 +2,47 @@
 
 API REST para gerenciamento de tarefas (to-do list), com autenticação via JWT.
 
+<br>
+
+🔗 **Frontend:** [Task-Traker-Front](https://github.com/giovannacostaxavier/Task-Traker-Front)
+
+🚀 **Projeto online:** [Acessar aplicação](https://task-traker-front.vercel.app/)
+<br>
+
+
 ## 🚀 Stack utilizada
 
-- **Node.js**
-- **TypeScript**
-- **Express**
-- **PostgreSQL** (via `pg`)
-- **JWT** (`jsonwebtoken`) para autenticação
-- **bcrypt** para hash de senhas
-- **Zod** para validação de dados
+- Node.js
+- TypeScript
+- Express
+- PostgreSQL via `pg`
+- JWT via `jsonwebtoken`
+- bcrypt para hash de senhas
+- Zod para validação de dados
+
+<br>
 
 ## 📦 Instalação
 
+Clone o repositório:
+
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/giovannacostaxavier/Task-Traker-Back.git
+```
+
+Entre na pasta:
+
+```bash
 cd Task-Traker-Back
+```
+
+Instale as dependências:
+
+```bash
 npm install
 ```
+
+<br>
 
 ## ⚙️ Variáveis de ambiente
 
@@ -34,36 +58,70 @@ DB_NAME=nome_do_banco
 JWT_SECRET=sua_chave_secreta_aqui
 ```
 
-> `PORT` é opcional — se não for definida, a API sobe na porta `3000` por padrão.
+> `PORT` é opcional. Se não for definida, a API utiliza a porta `3000` por padrão.
+
+<br>
 
 ## ▶️ Rodando o projeto
+
+Para executar em desenvolvimento:
 
 ```bash
 npm run dev
 ```
 
-A API sobe por padrão em `http://localhost:3000`.
+A API utiliza a porta `3000` por padrão.
+
+<br>
+
+## 📦 Build e execução
+
+Para gerar a versão compilada:
+
+```bash
+npm run build
+```
+
+Para executar a versão compilada:
+
+```bash
+npm start
+```
+
+<br>
 
 ## 🔐 Autenticação
 
-A API utiliza **JWT (JSON Web Token)**. Após o login, um token é retornado e deve ser enviado no header `Authorization` em todas as rotas protegidas:
+A API utiliza JWT (JSON Web Token).
 
-```
+Após o login, um token é retornado e deve ser enviado no header `Authorization` nas rotas protegidas:
+
+```http
 Authorization: Bearer <seu_token_aqui>
 ```
 
-Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou seja inválido/expirado, a API retorna `401 Unauthorized`.
+As rotas marcadas com 🔒 exigem autenticação.
 
----
+Caso o token não seja enviado ou seja inválido ou expirado, a API retorna:
+
+```text
+401 Unauthorized
+```
+
+<br>
 
 ## 📚 Endpoints
 
-### Usuários
+### 👤 Usuários
 
 #### Cadastrar usuário
-`POST /users`
 
-**Body:**
+```http
+POST /users
+```
+
+Body:
+
 ```json
 {
   "nome": "Maria Silva",
@@ -72,14 +130,16 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Validações:**
+Validações:
+
 | Campo | Regra |
 |---|---|
-| nome | obrigatório |
-| email | obrigatório, formato de email válido |
-| senha | obrigatório, mínimo 6 caracteres |
+| `nome` | obrigatório |
+| `email` | obrigatório e deve possuir formato válido |
+| `senha` | obrigatória, mínimo de 6 caracteres |
 
-**Resposta - `201 Created`:**
+Resposta — `201 Created`:
+
 ```json
 {
   "id": 1,
@@ -89,19 +149,24 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Erros possíveis:**
+Erros possíveis:
+
 | Status | Motivo |
 |---|---|
-| 400 | Dados inválidos (nome vazio, email inválido, senha curta) |
+| `400` | Dados inválidos |
 
----
+<br>
 
-### Login
+### 🔑 Login
 
 #### Autenticar usuário
-`POST /login`
 
-**Body:**
+```http
+POST /login
+```
+
+Body:
+
 ```json
 {
   "email": "maria@email.com",
@@ -109,34 +174,42 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Validações:**
+Validações:
+
 | Campo | Regra |
 |---|---|
-| email | obrigatório, formato de email válido |
-| senha | obrigatório |
+| `email` | obrigatório e deve possuir formato válido |
+| `senha` | obrigatória |
 
-**Resposta - `200 OK`:**
+Resposta — `200 OK`:
+
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "token": "seu_token_jwt"
 }
 ```
 
-**Erros possíveis:**
+Erros possíveis:
+
 | Status | Motivo |
 |---|---|
-| 400 | Dados inválidos (email ou senha ausentes/mal formatados) |
-| 401 | Credenciais inválidas (email não encontrado ou senha incorreta) |
+| `400` | Dados inválidos |
+| `401` | Credenciais inválidas |
 
----
+<br>
 
-### Tasks 🔒
-*Todas as rotas abaixo exigem autenticação.*
+### 📋 Tasks 🔒
+
+Todas as rotas abaixo exigem autenticação.
 
 #### Listar todas as tasks
-`GET /tasks`
 
-**Resposta - `200 OK`:**
+```http
+GET /tasks
+```
+
+Resposta — `200 OK`:
+
 ```json
 [
   {
@@ -149,17 +222,22 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 ]
 ```
 
----
+<br>
 
 #### Buscar task por ID
-`GET /tasks/:id`
 
-**Parâmetros de URL:**
+```http
+GET /tasks/:id
+```
+
+Parâmetros de URL:
+
 | Parâmetro | Tipo | Descrição |
 |---|---|---|
-| id | string | ID da task |
+| `id` | string | ID da task |
 
-**Resposta - `200 OK`:**
+Resposta — `200 OK`:
+
 ```json
 {
   "id": 1,
@@ -170,17 +248,22 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Erros possíveis:**
+Erros possíveis:
+
 | Status | Motivo |
 |---|---|
-| 404 | Task não encontrada |
+| `404` | Task não encontrada |
 
----
+<br>
 
 #### Criar task
-`POST /tasks`
 
-**Body:**
+```http
+POST /tasks
+```
+
+Body:
+
 ```json
 {
   "titulo": "Estudar Node.js",
@@ -188,15 +271,17 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Validações:**
+Validações:
+
 | Campo | Regra |
 |---|---|
-| titulo | obrigatório |
-| descricao | opcional |
+| `titulo` | obrigatório |
+| `descricao` | opcional |
 
-> O `user_id` é definido automaticamente a partir do usuário autenticado (token).
+> O `user_id` é definido automaticamente a partir do usuário autenticado.
 
-**Resposta - `201 Created`:**
+Resposta — `201 Created`:
+
 ```json
 {
   "id": 2,
@@ -207,22 +292,28 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Erros possíveis:**
+Erros possíveis:
+
 | Status | Motivo |
 |---|---|
-| 400 | Título ausente |
+| `400` | Título ausente |
 
----
+<br>
 
 #### Atualizar task
-`PUT /tasks/:id`
 
-**Parâmetros de URL:**
+```http
+PUT /tasks/:id
+```
+
+Parâmetros de URL:
+
 | Parâmetro | Tipo | Descrição |
 |---|---|---|
-| id | string | ID da task |
+| `id` | string | ID da task |
 
-**Body:**
+Body:
+
 ```json
 {
   "titulo": "Estudar TypeScript",
@@ -230,13 +321,15 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Validações:**
+Validações:
+
 | Campo | Regra |
 |---|---|
-| titulo | obrigatório |
-| descricao | opcional |
+| `titulo` | obrigatório |
+| `descricao` | opcional |
 
-**Resposta - `200 OK`:**
+Resposta — `200 OK`:
+
 ```json
 {
   "id": 2,
@@ -247,35 +340,51 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Erros possíveis:**
+Erros possíveis:
+
 | Status | Motivo |
 |---|---|
-| 400 | Título ausente |
-| 404 | Task não encontrada |
+| `400` | Título ausente |
+| `404` | Task não encontrada |
 
----
+<br>
 
 #### Atualizar status da task
-`PATCH /tasks/:id/status`
 
-**Parâmetros de URL:**
+```http
+PATCH /tasks/:id/status
+```
+
+Parâmetros de URL:
+
 | Parâmetro | Tipo | Descrição |
 |---|---|---|
-| id | string | ID da task |
+| `id` | string | ID da task |
 
-**Body:**
+Body:
+
 ```json
 {
   "status": "doing"
 }
 ```
 
-**Validações:**
+Valores permitidos:
+
+```text
+todo
+doing
+done
+```
+
+Validações:
+
 | Campo | Regra |
 |---|---|
-| status | obrigatório, um dos valores: `todo`, `doing`, `done` |
+| `status` | obrigatório; deve ser `todo`, `doing` ou `done` |
 
-**Resposta - `200 OK`:**
+Resposta — `200 OK`:
+
 ```json
 {
   "id": 2,
@@ -286,41 +395,40 @@ Rotas marcadas com 🔒 exigem esse header. Caso o token não seja enviado ou se
 }
 ```
 
-**Erros possíveis:**
+Erros possíveis:
+
 | Status | Motivo |
 |---|---|
-| 400 | Status inválido (fora de todo/doing/done) |
-| 404 | Task não encontrada |
+| `400` | Status inválido |
+| `404` | Task não encontrada |
 
----
+<br>
 
 #### Excluir task
-`DELETE /tasks/:id`
 
-**Parâmetros de URL:**
+```http
+DELETE /tasks/:id
+```
+
+Parâmetros de URL:
+
 | Parâmetro | Tipo | Descrição |
 |---|---|---|
-| id | string | ID da task |
+| `id` | string | ID da task |
 
-**Resposta:** `204 No Content` (sem corpo de resposta)
+Resposta:
 
-**Erros possíveis:**
+```text
+204 No Content
+```
+
+Erros possíveis:
+
 | Status | Motivo |
 |---|---|
-| 404 | Task não encontrada |
+| `404` | Task não encontrada |
 
----
-
-## ⚠️ Tratamento de erros
-
-Erros inesperados (não tratados especificamente pela rota) retornam:
-
-**Status:** `500 Internal Server Error`
-```json
-{
-  "erro": "Erro interno do servidor"
-}
-```
+<br>
 
 ## 🗂️ Resumo das rotas
 
@@ -334,3 +442,21 @@ Erros inesperados (não tratados especificamente pela rota) retornam:
 | PUT | `/tasks/:id` | 🔒 Sim | Atualiza título e descrição de uma task |
 | PATCH | `/tasks/:id/status` | 🔒 Sim | Atualiza o status de uma task |
 | DELETE | `/tasks/:id` | 🔒 Sim | Exclui uma task |
+
+<br>
+
+## ⚠️ Tratamento de erros
+
+Erros inesperados retornam:
+
+```text
+500 Internal Server Error
+```
+
+Exemplo:
+
+```json
+{
+  "erro": "Erro interno do servidor"
+}
+```
