@@ -4,9 +4,9 @@ API REST para gerenciamento de tarefas (to-do list), com autenticação via JWT.
 
 <br>
 
-🔗 **Frontend:** [Task-Traker-Front](https://github.com/giovannacostaxavier/Task-Traker-Front)
+🔗 **Frontend:** [Task-Traker-Front](https://github.com/giovannacostaxavier/Task-Tracker-Front)
 
-🚀 **Projeto online:** [Acessar aplicação](https://task-traker-front.vercel.app/)
+🚀 **Projeto online:** [Acessar aplicação](https://task-tracker-front.vercel.app/)
 <br>
 
 
